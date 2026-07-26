@@ -101,10 +101,14 @@ export function IntroModal({ onClose }: { onClose: () => void }) {
             border: "1px solid rgba(200,168,75,0.3)",
           }}
         >
-          <Heart size={12} fill="#f87171" color="#f87171" />
           <span>
             Click any note to read it fully. Use the + button to add your own.
           </span>
+          <span>
+            Phone works for adding notes but to see the corkboard clearly, use a
+            desktop/laptop.
+          </span>
+          <span>Add a photo! Click the + button and add a caption.</span>
         </div>
 
         <button

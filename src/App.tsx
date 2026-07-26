@@ -349,18 +349,28 @@ export default function App() {
 
   const handleAdd = useCallback(
     async (data: Omit<Note, "id" | "x" | "y" | "rotate">) => {
-      let bestX = 10;
+      // Reserve the top-left corner where the polaroid gallery lives so
+      // sticky notes never spawn underneath or overlapping it
+      const isInExclusionZone = (x: number, y: number) => x < 24 && y < 32;
+
+      let bestX = 30;
       let bestY = 10;
       let maxDistance = -1;
+      let foundValidCandidate = false;
 
-      for (let attempt = 0; attempt < 35; attempt++) {
+      for (let attempt = 0; attempt < 50; attempt++) {
         const candidateX = Math.random() * 70 + 5;
         const candidateY = Math.random() * 55 + 5;
 
-        if (notes.length === 0) {
+        // Skip any candidate that would land on/near the polaroid gallery
+        if (isInExclusionZone(candidateX, candidateY)) continue;
+
+        if (!foundValidCandidate) {
           bestX = candidateX;
           bestY = candidateY;
-          break;
+          foundValidCandidate = true;
+          if (notes.length === 0) break;
+          continue;
         }
 
         let minDistanceToOther = Infinity;
