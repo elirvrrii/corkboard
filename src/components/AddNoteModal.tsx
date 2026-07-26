@@ -58,7 +58,7 @@ export function AddNoteModal({
       message: message.trim(),
       color,
       pinColor: pin,
-      ps: ps.trim() || undefined,
+      ...(ps.trim() ? { ps: ps.trim() } : {}),
     });
     onClose();
   };
