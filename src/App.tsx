@@ -100,11 +100,6 @@ const GARLAND_FLAGS = [
   { id: "gf5", color: "#c7ceea", rotate: -2 },
 ];
 
-// Keep the detail view from getting absurdly tall/wide for extreme photos
-const MODAL_MIN_ASPECT_RATIO = 0.55;
-const MODAL_MAX_ASPECT_RATIO = 1.9;
-
-// Extracted Detail Photo Modal
 // Extracted Detail Photo Modal
 interface DetailPhotoModalProps {
   selectedPhoto: PolaroidPhoto;
