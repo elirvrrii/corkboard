@@ -1,57 +1,59 @@
-import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { motion } from "motion/react";
 import type { Note } from "../types/note";
-import { CartoonPin } from "./CartoonPin";
+import { Pushpin } from "./PushPin";
 
-interface NoteDetailModalProps {
+export function NoteDetailModal({
+  note,
+  onClose,
+}: {
   note: Note;
   onClose: () => void;
-}
-
-export function NoteDetailModal({ note, onClose }: NoteDetailModalProps) {
+}) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-6"
-      style={{ backdropFilter: "blur(8px)", background: "rgba(61,31,14,0.4)" }}
+      style={{ backdropFilter: "blur(10px)", background: "rgba(60,30,10,0.4)" }}
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.8, rotate: note.rotate * 3, opacity: 0 }}
+        initial={{ scale: 0.85, rotate: note.rotate * 2, opacity: 0 }}
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
-        exit={{ scale: 0.85, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 280, damping: 24 }}
-        className="relative max-w-sm w-full rounded-2xl pt-10 pb-6 px-6"
+        exit={{ scale: 0.88, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 250, damping: 24 }}
+        className="relative max-w-sm w-full rounded-sm pt-10 pb-7 px-7 shadow-2xl"
         style={{
           background: note.color,
-          border: "3.5px solid #3d1f0e",
-          boxShadow: "6px 6px 0px #3d1f0e",
+          boxShadow:
+            "0 24px 60px rgba(40,20,5,0.4), 0 6px 20px rgba(40,20,5,0.2)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <CartoonPin color={note.pinColor} />
+        <Pushpin color={note.pinColor} />
+        <div
+          className="absolute bottom-0 right-0 w-8 h-8"
+          style={{
+            background: `linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.08) 50%)`,
+          }}
+        />
 
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-7 h-7 flex items-center justify-center rounded-full transition-all"
-          style={{
-            background: "rgba(61,31,14,0.12)",
-            border: "2px solid #3d1f0e",
-            color: "#3d1f0e",
-          }}
+          className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full hover:bg-black/10 transition-all"
+          style={{ color: "#5a3e28" }}
         >
-          <X size={14} />
+          <X size={15} />
         </button>
 
         <div className="mb-3">
           <div
-            className="text-xs font-black uppercase tracking-widest mb-0.5"
+            className="text-[10px] font-bold uppercase tracking-widest mb-0.5"
             style={{
               fontFamily: "'Nunito', sans-serif",
-              color: "#3d1f0e",
-              opacity: 0.6,
+              color: "rgba(61,31,14,0.5)",
             }}
           >
             To
@@ -61,7 +63,7 @@ export function NoteDetailModal({ note, onClose }: NoteDetailModalProps) {
               fontFamily: "'Caveat', cursive",
               fontSize: "26px",
               fontWeight: 700,
-              color: "#3d1f0e",
+              color: "#2c1a0e",
             }}
           >
             {note.to}
@@ -69,44 +71,57 @@ export function NoteDetailModal({ note, onClose }: NoteDetailModalProps) {
         </div>
 
         <div
-          className="w-full h-0.5 my-3 rounded-full"
-          style={{ background: "rgba(61,31,14,0.2)" }}
+          className="w-full h-px my-3"
+          style={{ background: "rgba(61,31,14,0.15)" }}
         />
 
-        <div className="relative mb-3">
+        <div className="relative mb-5">
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="w-full h-px mb-6"
-              style={{ background: "rgba(61,31,14,0.13)" }}
+              className="w-full h-px mb-7"
+              style={{ background: "rgba(61,31,14,0.1)" }}
             />
           ))}
-          <p
-            className="absolute top-0 left-0 right-0 leading-relaxed"
-            style={{
-              fontFamily: "'Caveat', cursive",
-              fontSize: "19px",
-              color: "#3d1f0e",
-              lineHeight: "1.7rem",
-            }}
-          >
-            {note.message}
-          </p>
+          <div className="absolute top-0 left-0 right-0 space-y-3">
+            <p
+              style={{
+                fontFamily: "'Caveat', cursive",
+                fontSize: "20px",
+                color: "#2c1a0e",
+                lineHeight: "1.85rem",
+              }}
+            >
+              {note.message}
+            </p>
+            {note.ps && (
+              <p
+                style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "18px",
+                  color: "rgba(61,31,14,0.85)",
+                  fontStyle: "italic",
+                  lineHeight: "1.6rem",
+                }}
+              >
+                P.S. {note.ps}
+              </p>
+            )}
+          </div>
         </div>
 
         <div
-          className="w-full h-0.5 mb-3 rounded-full"
-          style={{ background: "rgba(61,31,14,0.2)" }}
+          className="w-full h-px mb-4"
+          style={{ background: "rgba(61,31,14,0.15)" }}
         />
 
         <div className="flex items-center justify-between">
           <div>
             <div
-              className="text-xs font-black uppercase tracking-widest"
+              className="text-[10px] font-bold uppercase tracking-widest"
               style={{
                 fontFamily: "'Nunito', sans-serif",
-                color: "#3d1f0e",
-                opacity: 0.6,
+                color: "rgba(61,31,14,0.5)",
               }}
             >
               From
@@ -114,27 +129,14 @@ export function NoteDetailModal({ note, onClose }: NoteDetailModalProps) {
             <div
               style={{
                 fontFamily: "'Caveat', cursive",
-                fontSize: "22px",
+                fontSize: "21px",
                 fontWeight: 600,
-                color: "#3d1f0e",
+                color: "#2c1a0e",
               }}
             >
               {note.from}
             </div>
           </div>
-          {note.tag && (
-            <span
-              className="text-xs px-2 py-1 rounded-full font-black"
-              style={{
-                background: "rgba(61,31,14,0.13)",
-                color: "#3d1f0e",
-                fontFamily: "'Nunito', sans-serif",
-                border: "2px solid rgba(61,31,14,0.3)",
-              }}
-            >
-              #{note.tag}
-            </span>
-          )}
         </div>
       </motion.div>
     </motion.div>

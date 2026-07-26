@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { Coffee, Heart } from "lucide-react";
+import { motion } from "motion/react";
 
 export function IntroModal({ onClose }: { onClose: () => void }) {
   return (
@@ -8,36 +8,38 @@ export function IntroModal({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-6"
-      style={{ backdropFilter: "blur(8px)", background: "rgba(61,31,14,0.35)" }}
+      style={{
+        backdropFilter: "blur(12px)",
+        background: "rgba(80,45,15,0.35)",
+      }}
     >
       <motion.div
-        initial={{ scale: 0.8, y: 20, opacity: 0 }}
+        initial={{ scale: 0.88, y: 24, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
-        exit={{ scale: 0.85, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 22 }}
-        className="relative max-w-md w-full rounded-2xl p-8"
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        className="relative max-w-md w-full rounded-2xl p-8 shadow-2xl"
         style={{
-          background: "#fffbef",
-          border: "3.5px solid #3d1f0e",
-          boxShadow: "6px 6px 0px #3d1f0e",
+          background: "#fdf8ef",
+          border: "1px solid rgba(139,99,59,0.18)",
         }}
       >
+        {/* tape */}
         <div
-          className="absolute -top-5 left-1/2 -translate-x-1/2 w-16 h-8 rounded-md opacity-80"
+          className="absolute -top-4 left-1/2 -translate-x-1/2 w-20 h-7 rounded-sm"
           style={{
-            background: "#fde68a",
-            border: "2px solid #3d1f0e",
-            boxShadow: "2px 2px 0px #3d1f0e",
+            background: "rgba(200,168,75,0.55)",
+            backdropFilter: "blur(2px)",
           }}
         />
 
-        <div className="flex items-center gap-2 mb-4 mt-1">
-          <Coffee size={20} style={{ color: "#92400e" }} />
+        <div className="flex items-center gap-2 mb-5 mt-1">
+          <Coffee size={18} style={{ color: "#92400e" }} />
           <span
-            className="text-xs font-black uppercase tracking-widest"
+            className="text-xs font-bold tracking-widest uppercase"
             style={{ fontFamily: "'Nunito', sans-serif", color: "#92400e" }}
           >
-            Welcome!
+            Welcome
           </span>
         </div>
 
@@ -45,11 +47,11 @@ export function IntroModal({ onClose }: { onClose: () => void }) {
           className="mb-4 leading-tight"
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(22px, 4vw, 28px)",
-            color: "#3d1f0e",
+            fontSize: "clamp(22px, 4vw, 29px)",
+            color: "#2c1a0e",
           }}
         >
-          Hey there, grab a seat. ☕
+          Miss you guys! ☕
         </h1>
 
         <p
@@ -57,34 +59,46 @@ export function IntroModal({ onClose }: { onClose: () => void }) {
           style={{
             fontFamily: "'Caveat', cursive",
             fontSize: "19px",
-            color: "#5c3518",
+            color: "#4a3020",
           }}
         >
-          This is my little corkboard — a cozy corner of the internet where I
-          collect notes from friends, reminders to myself, and the occasional
-          mystery message from a stranger.
+          Hi besties! I made this small corkboard app as an appreciation for our
+          internship. I never expected internship to be fun not only because of
+          what I learned throughout this period, but also because of the people
+          I met. Hindi ako nakapag sign sa inyo sa notebook so dito nalang
+          hahaha.
         </p>
-
         <p
-          className="mb-5 leading-relaxed"
+          className="mb-6 leading-relaxed"
           style={{
             fontFamily: "'Caveat', cursive",
             fontSize: "19px",
-            color: "#5c3518",
+            color: "#4a3020",
           }}
         >
-          Feel free to look around, read the notes, and leave one of your own.
-          The cork's warm and there's always room for one more pin. 📌
+          Feel free to look around, read the notes, and please leave one of your
+          own, either for me or for others. Messages or small affirmations would
+          do. I wish you all the best on your thesis and future exams.
+        </p>
+        <p
+          className="mb-6 leading-relaxed"
+          style={{
+            fontFamily: "'Caveat', cursive",
+            fontSize: "19px",
+            color: "#4a3020",
+          }}
+        >
+          - Angelique
         </p>
 
         <div
           className="flex items-center gap-2 text-xs mb-6 p-3 rounded-xl"
           style={{
-            background: "#fef9c3",
-            border: "2px solid #3d1f0e",
-            color: "#5c3518",
+            background: "rgba(200,168,75,0.15)",
+            color: "#6b4c2a",
             fontFamily: "'Nunito', sans-serif",
-            fontWeight: 700,
+            fontWeight: 600,
+            border: "1px solid rgba(200,168,75,0.3)",
           }}
         >
           <Heart size={12} fill="#f87171" color="#f87171" />
@@ -95,14 +109,13 @@ export function IntroModal({ onClose }: { onClose: () => void }) {
 
         <button
           onClick={onClose}
-          className="w-full py-3 rounded-xl font-black transition-all duration-150 hover:translate-y-0.5 active:translate-y-1"
+          className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:brightness-105 active:scale-95"
           style={{
-            background: "#92400e",
-            color: "#fffbef",
+            background: "#6b4c2a",
+            color: "#fdf8ef",
             fontFamily: "'Nunito', sans-serif",
-            fontSize: "16px",
-            border: "3px solid #3d1f0e",
-            boxShadow: "4px 4px 0px #3d1f0e",
+            fontSize: "15px",
+            boxShadow: "0 4px 14px rgba(107,76,42,0.35)",
           }}
         >
           Come on in →

@@ -1,5 +1,5 @@
 export type Note = {
-  id: string;
+  id: string | number;
   to: string;
   from: string;
   message: string;
@@ -8,6 +8,5 @@ export type Note = {
   x: number;
   y: number;
   pinColor: string;
-  tag?: string;
-  createdAt?: unknown;
+  ps?: string;
 };

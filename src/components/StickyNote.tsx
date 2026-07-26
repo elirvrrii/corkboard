@@ -1,84 +1,115 @@
+// src/components/StickyNote.tsx
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type { Note } from "../types/note";
-import { OUTLINE, SHADOW } from "../constants/colors";
-import { CartoonPin } from "./CartoonPin";
+import { Pushpin } from "./PushPin";
 
-interface StickyNoteProps {
+export function StickyNote({
+  note,
+  onClick,
+}: {
   note: Note;
   onClick: () => void;
-}
-
-export function StickyNote({ note, onClick }: StickyNoteProps) {
+}) {
   const [hovered, setHovered] = useState(false);
+
+  // Compute a balanced tilt: forces even IDs to lean left (-deg) and odd IDs to lean right (+deg)
+  const baseAngle = Math.abs(note.rotate || 6);
+  const isEvenId =
+    typeof note.id === "string"
+      ? note.id.charCodeAt(note.id.length - 1) % 2 === 0
+      : Number(note.id) % 2 === 0;
+
+  const computedRotation = isEvenId ? -baseAngle : baseAngle;
 
   return (
     <motion.div
-      initial={{ scale: 0.7, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="absolute cursor-pointer select-none"
       style={{
         left: `${note.x}%`,
         top: `${note.y}%`,
-        rotate: `${note.rotate}deg`,
-        width: "clamp(130px, 14vw, 185px)",
+        rotate: `${computedRotation}deg`,
+        width: "clamp(120px, 12vw, 160px)",
         zIndex: hovered ? 50 : 10,
       }}
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className="absolute cursor-pointer select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      whileHover={{ scale: 1.1, rotate: 0 }}
-      whileTap={{ scale: 0.95 }}
     >
-      <CartoonPin color={note.pinColor} />
+      {/* Pushpin sitting comfortably above the paper container without being clipped */}
+      <Pushpin color={note.pinColor} />
+
       <div
-        className="rounded-xl pt-4 pb-4 px-4 relative"
+        className="rounded-sm pt-5 pb-4 px-4 relative overflow-hidden flex flex-col justify-between min-h-[105px]"
         style={{
           background: note.color,
-          border: OUTLINE,
-          boxShadow: SHADOW,
+          boxShadow: hovered
+            ? "0 16px 36px rgba(80,40,10,0.20), 0 4px 10px rgba(80,40,10,0.12)"
+            : "0 4px 14px rgba(80,40,10,0.14), 0 2px 5px rgba(80,40,10,0.08)",
+          transition: "box-shadow 0.15s ease-out",
         }}
       >
+        {/* Paper fold accent */}
         <div
-          className="text-[10px] font-black uppercase tracking-widest mb-1"
+          className="absolute bottom-0 right-0 w-4 h-4 pointer-events-none"
           style={{
-            fontFamily: "'Nunito', sans-serif",
-            color: "rgba(61,31,14,0.5)",
+            background: `linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.08) 50%)`,
           }}
-        >
-          To: <span style={{ color: "#3d1f0e" }}>{note.to}</span>
+        />
+
+        {/* To section */}
+        <div>
+          <span
+            className="text-[9px] font-semibold tracking-widest uppercase block"
+            style={{
+              fontFamily: "'Nunito', sans-serif",
+              color: "rgba(61,31,14,0.45)",
+            }}
+          >
+            To:
+          </span>
+          <p
+            className="text-xs font-bold truncate"
+            style={{
+              fontFamily: "'Nunito', sans-serif",
+              color: "rgba(61,31,14,0.85)",
+            }}
+          >
+            {note.to}
+          </p>
         </div>
 
         <div
-          className="w-full h-px mb-2"
-          style={{ background: "rgba(61,31,14,0.15)" }}
+          className="w-full h-px my-1.5"
+          style={{ background: "rgba(61,31,14,0.12)" }}
         />
 
-        <p
-          className="leading-snug line-clamp-3"
-          style={{
-            fontFamily: "'Caveat', cursive",
-            color: "#3d1f0e",
-            fontSize: "clamp(13px, 1.2vw, 15px)",
-          }}
-        >
-          {note.message}
-        </p>
-
-        {note.tag && (
+        {/* From section */}
+        <div className="text-right">
           <span
-            className="inline-block mt-2 text-[10px] px-2 py-0.5 rounded-full font-bold"
+            className="text-[9px] font-semibold tracking-widest uppercase block"
             style={{
-              background: "rgba(61,31,14,0.12)",
-              color: "#3d1f0e",
               fontFamily: "'Nunito', sans-serif",
-              border: "1.5px solid rgba(61,31,14,0.25)",
+              color: "rgba(61,31,14,0.45)",
             }}
           >
-            #{note.tag}
+            From:
           </span>
-        )}
+          <p
+            className="text-xs font-semibold truncate"
+            style={{
+              fontFamily: "'Caveat', cursive",
+              color: "rgba(61,31,14,0.85)",
+            }}
+          >
+            {note.from || "Anonymous"}
+          </p>
+        </div>
       </div>
     </motion.div>
   );
