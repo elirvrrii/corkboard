@@ -436,7 +436,7 @@ export default function App() {
                 color: "#3d1f0e",
               }}
             >
-              Geli&apos;s Corkboard
+              PGC Visayas Interns Message Board
             </h1>
 
             <motion.button

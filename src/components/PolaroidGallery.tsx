@@ -16,6 +16,10 @@ import type { PolaroidPhoto } from "../App";
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
+const toDisplayUrl = (url: string) => {
+  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+};
+
 export interface PhotoItem {
   id: string;
   url: string;
@@ -117,8 +121,8 @@ export function PolaroidGallery({ onPhotoClick }: PolaroidGalleryProps) {
       }
 
       await push(photosRef, {
-        url: finalPhotoUrl,
-        caption: inputCaption.trim() || "Polaroid ✨",
+        url: toDisplayUrl(finalPhotoUrl),
+        caption: inputCaption.trim() || "✨",
         createdAt: Date.now(),
       });
 
