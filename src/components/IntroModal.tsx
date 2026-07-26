@@ -1,4 +1,4 @@
-import { Coffee, Heart } from "lucide-react";
+import { Coffee } from "lucide-react";
 import { motion } from "motion/react";
 
 export function IntroModal({ onClose }: { onClose: () => void }) {
